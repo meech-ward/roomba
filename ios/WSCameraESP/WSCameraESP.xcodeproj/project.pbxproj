@@ -1,0 +1,644 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		22EB1FC92D2DABBE00B37E1F /* MightFail in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FC82D2DABBE00B37E1F /* MightFail */; };
+		22EB1FCC2D2DABFF00B37E1F /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FCB2D2DABFF00B37E1F /* Parchment */; };
+		22EB1FEE2D2DAE8A00B37E1F /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FED2D2DAE8A00B37E1F /* AsyncAlgorithms */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		22EB1FAA2D2DAB9300B37E1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22EB1F8B2D2DAB9100B37E1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 22EB1F922D2DAB9100B37E1F;
+			remoteInfo = WSCameraESP;
+		};
+		22EB1FB42D2DAB9300B37E1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22EB1F8B2D2DAB9100B37E1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 22EB1F922D2DAB9100B37E1F;
+			remoteInfo = WSCameraESP;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		22EB1F932D2DAB9100B37E1F /* WSCameraESP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WSCameraESP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		22EB1FA92D2DAB9300B37E1F /* WSCameraESPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WSCameraESPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		22EB1FB32D2DAB9300B37E1F /* WSCameraESPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WSCameraESPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		22EB1FBB2D2DAB9300B37E1F /* Exceptions for "WSCameraESP" folder in "WSCameraESP" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 22EB1F922D2DAB9100B37E1F /* WSCameraESP */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		22EB1F952D2DAB9100B37E1F /* WSCameraESP */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				22EB1FBB2D2DAB9300B37E1F /* Exceptions for "WSCameraESP" folder in "WSCameraESP" target */,
+			);
+			path = WSCameraESP;
+			sourceTree = "<group>";
+		};
+		22EB1FAC2D2DAB9300B37E1F /* WSCameraESPTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WSCameraESPTests;
+			sourceTree = "<group>";
+		};
+		22EB1FB62D2DAB9300B37E1F /* WSCameraESPUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WSCameraESPUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		22EB1F902D2DAB9100B37E1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22EB1FC92D2DABBE00B37E1F /* MightFail in Frameworks */,
+				22EB1FCC2D2DABFF00B37E1F /* Parchment in Frameworks */,
+				22EB1FEE2D2DAE8A00B37E1F /* AsyncAlgorithms in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FA62D2DAB9300B37E1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FB02D2DAB9300B37E1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		22EB1F8A2D2DAB9100B37E1F = {
+			isa = PBXGroup;
+			children = (
+				22EB1F952D2DAB9100B37E1F /* WSCameraESP */,
+				22EB1FAC2D2DAB9300B37E1F /* WSCameraESPTests */,
+				22EB1FB62D2DAB9300B37E1F /* WSCameraESPUITests */,
+				22EB1F942D2DAB9100B37E1F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		22EB1F942D2DAB9100B37E1F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				22EB1F932D2DAB9100B37E1F /* WSCameraESP.app */,
+				22EB1FA92D2DAB9300B37E1F /* WSCameraESPTests.xctest */,
+				22EB1FB32D2DAB9300B37E1F /* WSCameraESPUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		22EB1F922D2DAB9100B37E1F /* WSCameraESP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22EB1FBC2D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESP" */;
+			buildPhases = (
+				22EB1F8F2D2DAB9100B37E1F /* Sources */,
+				22EB1F902D2DAB9100B37E1F /* Frameworks */,
+				22EB1F912D2DAB9100B37E1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				22EB1F952D2DAB9100B37E1F /* WSCameraESP */,
+			);
+			name = WSCameraESP;
+			packageProductDependencies = (
+				22EB1FC82D2DABBE00B37E1F /* MightFail */,
+				22EB1FCB2D2DABFF00B37E1F /* Parchment */,
+				22EB1FED2D2DAE8A00B37E1F /* AsyncAlgorithms */,
+			);
+			productName = WSCameraESP;
+			productReference = 22EB1F932D2DAB9100B37E1F /* WSCameraESP.app */;
+			productType = "com.apple.product-type.application";
+		};
+		22EB1FA82D2DAB9300B37E1F /* WSCameraESPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22EB1FC12D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESPTests" */;
+			buildPhases = (
+				22EB1FA52D2DAB9300B37E1F /* Sources */,
+				22EB1FA62D2DAB9300B37E1F /* Frameworks */,
+				22EB1FA72D2DAB9300B37E1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				22EB1FAB2D2DAB9300B37E1F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				22EB1FAC2D2DAB9300B37E1F /* WSCameraESPTests */,
+			);
+			name = WSCameraESPTests;
+			packageProductDependencies = (
+			);
+			productName = WSCameraESPTests;
+			productReference = 22EB1FA92D2DAB9300B37E1F /* WSCameraESPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		22EB1FB22D2DAB9300B37E1F /* WSCameraESPUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22EB1FC42D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESPUITests" */;
+			buildPhases = (
+				22EB1FAF2D2DAB9300B37E1F /* Sources */,
+				22EB1FB02D2DAB9300B37E1F /* Frameworks */,
+				22EB1FB12D2DAB9300B37E1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				22EB1FB52D2DAB9300B37E1F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				22EB1FB62D2DAB9300B37E1F /* WSCameraESPUITests */,
+			);
+			name = WSCameraESPUITests;
+			packageProductDependencies = (
+			);
+			productName = WSCameraESPUITests;
+			productReference = 22EB1FB32D2DAB9300B37E1F /* WSCameraESPUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		22EB1F8B2D2DAB9100B37E1F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					22EB1F922D2DAB9100B37E1F = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					22EB1FA82D2DAB9300B37E1F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 22EB1F922D2DAB9100B37E1F;
+					};
+					22EB1FB22D2DAB9300B37E1F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 22EB1F922D2DAB9100B37E1F;
+					};
+				};
+			};
+			buildConfigurationList = 22EB1F8E2D2DAB9100B37E1F /* Build configuration list for PBXProject "WSCameraESP" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 22EB1F8A2D2DAB9100B37E1F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */,
+				22EB1FCA2D2DABFF00B37E1F /* XCRemoteSwiftPackageReference "Parchment" */,
+				22EB1FEC2D2DAE8A00B37E1F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 22EB1F942D2DAB9100B37E1F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				22EB1F922D2DAB9100B37E1F /* WSCameraESP */,
+				22EB1FA82D2DAB9300B37E1F /* WSCameraESPTests */,
+				22EB1FB22D2DAB9300B37E1F /* WSCameraESPUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		22EB1F912D2DAB9100B37E1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FA72D2DAB9300B37E1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FB12D2DAB9300B37E1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		22EB1F8F2D2DAB9100B37E1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FA52D2DAB9300B37E1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22EB1FAF2D2DAB9300B37E1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		22EB1FAB2D2DAB9300B37E1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 22EB1F922D2DAB9100B37E1F /* WSCameraESP */;
+			targetProxy = 22EB1FAA2D2DAB9300B37E1F /* PBXContainerItemProxy */;
+		};
+		22EB1FB52D2DAB9300B37E1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 22EB1F922D2DAB9100B37E1F /* WSCameraESP */;
+			targetProxy = 22EB1FB42D2DAB9300B37E1F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		22EB1FBD2D2DAB9300B37E1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WSCameraESP/WSCameraESP.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WSCameraESP/Info.plist;
+				INFOPLIST_KEY_GCSupportsControllerUserInteraction = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = yes;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESP";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		22EB1FBE2D2DAB9300B37E1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WSCameraESP/WSCameraESP.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WSCameraESP/Info.plist;
+				INFOPLIST_KEY_GCSupportsControllerUserInteraction = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = yes;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESP";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		22EB1FBF2D2DAB9300B37E1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		22EB1FC02D2DAB9300B37E1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		22EB1FC22D2DAB9300B37E1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESPTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WSCameraESP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WSCameraESP";
+			};
+			name = Debug;
+		};
+		22EB1FC32D2DAB9300B37E1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESPTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WSCameraESP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WSCameraESP";
+			};
+			name = Release;
+		};
+		22EB1FC52D2DAB9300B37E1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESPUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WSCameraESP;
+			};
+			name = Debug;
+		};
+		22EB1FC62D2DAB9300B37E1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7GT6EK8D4J;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.meech-ward.WSCameraESPUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WSCameraESP;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		22EB1F8E2D2DAB9100B37E1F /* Build configuration list for PBXProject "WSCameraESP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22EB1FBF2D2DAB9300B37E1F /* Debug */,
+				22EB1FC02D2DAB9300B37E1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		22EB1FBC2D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22EB1FBD2D2DAB9300B37E1F /* Debug */,
+				22EB1FBE2D2DAB9300B37E1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		22EB1FC12D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22EB1FC22D2DAB9300B37E1F /* Debug */,
+				22EB1FC32D2DAB9300B37E1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		22EB1FC42D2DAB9300B37E1F /* Build configuration list for PBXNativeTarget "WSCameraESPUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22EB1FC52D2DAB9300B37E1F /* Debug */,
+				22EB1FC62D2DAB9300B37E1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/might-fail/swift-might-fail.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+		22EB1FCA2D2DABFF00B37E1F /* XCRemoteSwiftPackageReference "Parchment" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rechsteiner/Parchment.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		22EB1FEC2D2DAE8A00B37E1F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		22EB1FC82D2DABBE00B37E1F /* MightFail */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */;
+			productName = MightFail;
+		};
+		22EB1FCB2D2DABFF00B37E1F /* Parchment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22EB1FCA2D2DABFF00B37E1F /* XCRemoteSwiftPackageReference "Parchment" */;
+			productName = Parchment;
+		};
+		22EB1FED2D2DAE8A00B37E1F /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22EB1FEC2D2DAE8A00B37E1F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 22EB1F8B2D2DAB9100B37E1F /* Project object */;
+}

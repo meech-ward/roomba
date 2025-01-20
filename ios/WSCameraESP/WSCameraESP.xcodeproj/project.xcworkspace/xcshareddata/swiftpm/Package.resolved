@@ -1,0 +1,42 @@
+{
+  "originHash" : "d1c5d3aa9a276b5a4d2e620a38bc4631d3b5f38a40a32db4b897e5b0c56c8304",
+  "pins" : [
+    {
+      "identity" : "parchment",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rechsteiner/Parchment.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "dfb23ea5118ca8bfbc578065627fccf4ec4a362e"
+      }
+    },
+    {
+      "identity" : "swift-async-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-async-algorithms.git",
+      "state" : {
+        "revision" : "4c3ea81f81f0a25d0470188459c6d4bf20cf2f97",
+        "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
+        "version" : "1.1.4"
+      }
+    },
+    {
+      "identity" : "swift-might-fail",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/might-fail/swift-might-fail.git",
+      "state" : {
+        "revision" : "ef1e0f79a74ff6f88442dbcdd56ad9cb8e469732",
+        "version" : "0.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}

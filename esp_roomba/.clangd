@@ -1,0 +1,88 @@
+# CompileFlags:
+#   Add:
+#     - -std=gnu++2b
+#     - -std=c++2b
+#     - -D__cpp_concepts=202002L
+#     - -Wno-unknown-argument
+#     - "-I~/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/xtensa-esp-elf/include/c++/13.2.0"
+#     - "-I~/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/xtensa-esp-elf/include/c++/13.2.0/xtensa-esp-elf/esp32s3"
+#     - "-I~/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/xtensa-esp-elf/include"
+#     - "-I~/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/xtensa-esp-elf/include/c++/13.2.0/expected"
+    
+#   Remove:
+#     - "-mlongcalls"
+#     - "-fno-shrink-wrap"
+#     - "-fstrict-volatile-bitfields"
+#     - "-fno-tree-switch-conversion"
+#     - "-Wreadability-function-cognitive-complexity"
+
+# Index:
+#   StandardLibrary: Yes
+#   Background: Build
+
+# Diagnostics:
+#   ClangTidy:
+#     Add:
+#       - modernize*
+#       - performance*
+#       - bugprone*
+#       - readability*
+#     Remove:
+#       - modernize-use-trailing-return-type
+#       - readability-identifier-length
+#       - readability-function-cognitive-complexity
+
+#   Suppress:
+#     - module_unimported_use
+
+# InlayHints:
+#   Enabled: Yes
+#   ParameterNames: Yes
+#   DeducedTypes: Yes
+
+# Hover:
+#   ShowAKA: Yes
+
+# Completion:
+#   AllScopes: Yes
+
+
+CompileFlags:
+  # Point clangd to the compile_commands.json if not already symlinked at project root
+  CompilationDatabase: ./build
+  Remove: [-fno-tree-switch-conversion, -fno-shrink-wrap, -mtext-section-literals, -mlongcalls, -fstrict-volatile-bitfields, -march=rv32imac_zicsr_zifencei, -mdisable-hardware-atomics]
+  Add:
+    - "-xc++"  # Explicitly specify C++ language mode
+    - -std=gnu++2b
+    - -std=c++2b
+    - -D__cpp_concepts=202002L
+    - -Wno-unknown-argument
+    - "-I~/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/xtensa-esp-elf/include/c++/13.2.0"
+
+Index:
+  StandardLibrary: Yes
+  Background: Build
+
+Diagnostics:
+  # Suppress warnings about unknown warning options, which can appear with cross-compilation
+  Suppress: ['-Wunknown-warning-option']
+
+  ClangTidy:
+    Add:
+      - modernize*
+      - performance*
+      - bugprone*
+      - readability*
+    Remove:
+      - readability-identifier-length
+      - readability-function-cognitive-complexity
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+
+Hover:
+  ShowAKA: Yes
+
+Completion:
+  AllScopes: Yes
