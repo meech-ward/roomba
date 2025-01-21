@@ -88,12 +88,13 @@ static auto ws_handler(httpd_req_t* req) -> esp_err_t {
 // ----------------------- Web Server Setup -----------------------
 auto start_webserver() -> httpd_handle_t {
   httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-config.recv_wait_timeout = 1;        // Minimum wait time
-config.send_wait_timeout = 1;        // Minimum wait time
-config.max_uri_handlers = 1;         // We only need one
-config.max_open_sockets = 1;         // For single client
-config.lru_purge_enable = true;      // Enable purging of old packets
-config.backlog_conn = 1;             // Minimum connection backlog
+  // we care more about the most recent frame than anything else
+  config.recv_wait_timeout = 1;    // Minimum wait time
+  config.send_wait_timeout = 1;    // Minimum wait time
+  config.max_uri_handlers = 1;     // We only need one
+  config.max_open_sockets = 1;     // For single client
+  config.lru_purge_enable = true;  // Enable purging of old packets
+  config.backlog_conn = 1;         // Minimum connection backlog
   // Optionally tweak for performance:
   // config.stack_size = 32768;
   // config.recv_wait_timeout = ...
