@@ -6,9 +6,9 @@
 //
 
 import AVFoundation
+import MightFail
 import SwiftUI
 import UIKit
-import MightFail
 
 class ExternalCameraViewController: UIViewController {
   var previewImagesButtonVC: UIViewController!
@@ -31,7 +31,7 @@ class ExternalCameraViewController: UIViewController {
 
   private func setupWSConnectionButton() {
     Task {
-      for await state in await self.repository.connectionState.stream() {
+      for await state in self.repository.connectionState.stream() {
         let systemImageName: String
         switch state {
         case .connected:
@@ -66,7 +66,6 @@ class ExternalCameraViewController: UIViewController {
     contentUnavailableConfiguration = config
   }
 
-
   // MARK: - Take Photo
 
   private func takePhoto() async throws {
@@ -92,5 +91,4 @@ class ExternalCameraViewController: UIViewController {
       }
     }
   }
-
 }

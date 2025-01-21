@@ -3,7 +3,7 @@ import SwiftUI
 
 struct GeneralSettingsView: View {
   private var repository: Repository = .shared
-  @State private var logs: [Log] = []
+  @State private var logs = BoundedDeque<Log>(maxSize: 30)
 
   var body: some View {
     List {
@@ -38,7 +38,7 @@ struct GeneralSettingsView: View {
       }
 
       Section(header: Text("Logs")) {
-        ForEach(logs) { log in
+        ForEach(logs.allItems()) { log in
           Text("\(log.message)")
         }
       }
@@ -46,8 +46,8 @@ struct GeneralSettingsView: View {
     .listStyle(GroupedListStyle())
     .navigationTitle("General Stats")
     .task {
-      for await log in await repository.logs.stream() {
-        logs.append(log)
+      for await log in  repository.logs.stream() {
+        logs.add(log)
       }
     }
   }

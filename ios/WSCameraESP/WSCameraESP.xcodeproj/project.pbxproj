@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		223CD1572D3F0B9900E8B90E /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 223CD1562D3F0B9900E8B90E /* DequeModule */; };
 		22EB1FC92D2DABBE00B37E1F /* MightFail in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FC82D2DABBE00B37E1F /* MightFail */; };
 		22EB1FCC2D2DABFF00B37E1F /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FCB2D2DABFF00B37E1F /* Parchment */; };
 		22EB1FEE2D2DAE8A00B37E1F /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 22EB1FED2D2DAE8A00B37E1F /* AsyncAlgorithms */; };
@@ -72,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22EB1FC92D2DABBE00B37E1F /* MightFail in Frameworks */,
+				223CD1572D3F0B9900E8B90E /* DequeModule in Frameworks */,
 				22EB1FCC2D2DABFF00B37E1F /* Parchment in Frameworks */,
 				22EB1FEE2D2DAE8A00B37E1F /* AsyncAlgorithms in Frameworks */,
 			);
@@ -137,6 +139,7 @@
 				22EB1FC82D2DABBE00B37E1F /* MightFail */,
 				22EB1FCB2D2DABFF00B37E1F /* Parchment */,
 				22EB1FED2D2DAE8A00B37E1F /* AsyncAlgorithms */,
+				223CD1562D3F0B9900E8B90E /* DequeModule */,
 			);
 			productName = WSCameraESP;
 			productReference = 22EB1F932D2DAB9100B37E1F /* WSCameraESP.app */;
@@ -224,6 +227,7 @@
 				22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */,
 				22EB1FCA2D2DABFF00B37E1F /* XCRemoteSwiftPackageReference "Parchment" */,
 				22EB1FEC2D2DAE8A00B37E1F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				223CD1552D3F0B9900E8B90E /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 22EB1F942D2DAB9100B37E1F /* Products */;
@@ -596,6 +600,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		223CD1552D3F0B9900E8B90E /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 		22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/might-fail/swift-might-fail.git";
@@ -623,6 +635,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		223CD1562D3F0B9900E8B90E /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 223CD1552D3F0B9900E8B90E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
 		22EB1FC82D2DABBE00B37E1F /* MightFail */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 22EB1FC72D2DABBE00B37E1F /* XCRemoteSwiftPackageReference "swift-might-fail" */;

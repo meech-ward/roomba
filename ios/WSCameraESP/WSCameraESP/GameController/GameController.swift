@@ -27,10 +27,8 @@ actor GameController {
   private var didDisconnectNotificationTask: Task<Void, Never>?
   
   private var virtualController: GCVirtualController? {
-    didSet {
-      Task {
-        setController(virtualController?.controller)
-      }
+    willSet {
+      setController(newValue?.controller)
     }
   }
     
@@ -65,13 +63,13 @@ actor GameController {
     self.controller = controller
   }
     
-  func tearDown() async {
+  func tearDown() {
     didConnectNotificationTask?.cancel()
     didDisconnectNotificationTask?.cancel()
     motionManager.stopDeviceMotionUpdates()
     tearDownVirtualController()
-    await leftThumb.update((0, 0))
-    await rightThumb.update((0, 0))
+    leftThumb.update((0, 0))
+    rightThumb.update((0, 0))
   }
     
   // MARK: - Virtual Controller
@@ -160,22 +158,24 @@ actor GameController {
 //    }
 //  }
     
+
+
   private func configureController(_ controller: GCController) {
     Task.detached {
+      let leftThumb = await self.leftThumb
+      let rightThumb = await self.rightThumb
       guard let gamepad = controller.extendedGamepad else {
         return
       }
       
       gamepad.rightThumbstick.valueChangedHandler = { _, x, y in
-        Task {
-          await self.rightThumb.update((x, y))
-        }
+        print("from gamepad right", x, y)
+        rightThumb.update((x, y))
       }
       
       gamepad.leftThumbstick.valueChangedHandler = { _, x, y in
-        Task {
-          await self.leftThumb.update((x, y))
-        }
+        print("from gamepad left", x, y)
+        leftThumb.update((x, y))
       }
       
       for (_, button) in gamepad.buttons {

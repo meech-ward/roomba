@@ -32,7 +32,7 @@ import Foundation
 /// // Update value
 /// await manager.update(42)
 /// ```
-public actor AsyncStreamStateManager<T: Sendable> {
+public class AsyncStreamStateManager<T: Sendable>: @unchecked Sendable {
   /// An Observable class that wraps the managed value for SwiftUI/UIKit integration.
   /// This class is bound to the MainActor to ensure all UI updates happen on the main thread.
   @Observable
@@ -60,12 +60,16 @@ public actor AsyncStreamStateManager<T: Sendable> {
     
   /// Task that synchronizes the observable state with the current value
   private var updateStateTask: Task<Void, Never>?
+  
+  private var serialQueue: DispatchQueue
     
   /// Sets up the task that keeps the observable state in sync with the current value
   private func setUpdateStateTask() {
-    updateStateTask = Task { @MainActor in
-      for await value in await stream() {
-        observable.value = value
+    serialQueue.sync {
+      updateStateTask = Task { @MainActor in
+        for await value in stream() {
+          observable.value = value
+        }
       }
     }
   }
@@ -75,8 +79,9 @@ public actor AsyncStreamStateManager<T: Sendable> {
   /// the MainActor-bound observable state.
   ///
   /// - Parameter initialValue: The initial value to manage
-  public init(_ initialValue: T) async {
+  public init(_ initialValue: T, serialQueue: DispatchQueue = DispatchSerialQueue(label: "AsyncStreamStateManager")) async {
     value = initialValue
+    self.serialQueue = serialQueue
     await MainActor.run {
       observable = .init(value: initialValue)
     }
@@ -88,12 +93,11 @@ public actor AsyncStreamStateManager<T: Sendable> {
   ///
   /// - Parameter initialValue: The initial value to manage
   @MainActor
-  public init(_ initialValue: T) {
+  public init(_ initialValue: T, serialQueue: DispatchQueue = DispatchSerialQueue(label: "AsyncStreamStateManager")) {
     value = initialValue
+    self.serialQueue = serialQueue
     observable = .init(value: initialValue)
-    Task {
-      await setUpdateStateTask()
-    }
+    setUpdateStateTask()
   }
     
   deinit {
@@ -104,18 +108,22 @@ public actor AsyncStreamStateManager<T: Sendable> {
   ///
   /// - Parameter value: The new value to set
   public func update(_ value: T) {
-    self.value = value
-    for continuation in continuations.values {
-      continuation.yield(value)
+    serialQueue.sync {
+      self.value = value
+      for continuation in continuations.values {
+        continuation.yield(value)
+      }
     }
   }
     
   /// Internal helper to manage stream continuations
   private func setContinuation(id: UUID, continuation: AsyncStream<T>.Continuation?) {
-    if let continuation {
-      continuations[id] = continuation
-    } else {
-      continuations.removeValue(forKey: id)
+    serialQueue.sync {
+      if let continuation {
+        continuations[id] = continuation
+      } else {
+        continuations.removeValue(forKey: id)
+      }
     }
   }
     
@@ -128,16 +136,13 @@ public actor AsyncStreamStateManager<T: Sendable> {
       guard let self = self else { return }
             
       let id = UUID()
-      Task {
-        await self.setContinuation(id: id, continuation: continuation)
-        continuation.yield(await self.value)
-      }
-            
+
+      self.setContinuation(id: id, continuation: continuation)
+      continuation.yield(self.value)
+   
       continuation.onTermination = { @Sendable [weak self] _ in
-        guard let self = self else { return }
-        Task {
-          await self.setContinuation(id: id, continuation: nil)
-        }
+        guard let self else { return }
+        self.setContinuation(id: id, continuation: nil)
       }
     }
   }

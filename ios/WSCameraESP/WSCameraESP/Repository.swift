@@ -209,6 +209,8 @@ actor Repository {
     motorDataTask?.cancel()
     motorDataTask = Task.detached {
       while Task.isCancelled == false {
+        print(await self.leftMotor.speed)
+        print(await self.rightMotor.speed)
         let binaryData = await MotorCommand.toBinaryData(motors: motors)
         let (error, _, success) = await mightFail { try await dataWebSocket.send(data: binaryData) }
         guard success else {
