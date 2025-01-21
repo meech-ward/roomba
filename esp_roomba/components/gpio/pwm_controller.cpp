@@ -65,7 +65,9 @@ auto PwmController::setFrequency(std::size_t channelIndex, uint32_t newFrequency
     .duty_resolution = cfg.resolution,
     .timer_num = cfg.timer,
     .freq_hz = newFrequency,
-    .clk_cfg = LEDC_AUTO_CLK};
+    .clk_cfg = LEDC_AUTO_CLK,
+    .deconfigure = false
+    };
 
   esp_err_t err = ledc_timer_config(&timerConfig);
   if (err != ESP_OK) {
@@ -81,7 +83,8 @@ auto PwmController::configureTimer(const PwmChannelConfig& channelCfg) -> std::e
     .duty_resolution = channelCfg.resolution,
     .timer_num = channelCfg.timer,
     .freq_hz = channelCfg.frequency,
-    .clk_cfg = LEDC_AUTO_CLK};
+    .clk_cfg = LEDC_AUTO_CLK,
+    .deconfigure = false};
 
   esp_err_t err = ledc_timer_config(&timerConfig);
   if (err != ESP_OK) {
@@ -99,7 +102,10 @@ auto PwmController::configureChannel(const PwmChannelConfig& channelCfg) -> std:
     .intr_type = LEDC_INTR_DISABLE,
     .timer_sel = channelCfg.timer,
     .duty = channelCfg.duty,
-    .hpoint = 0};
+    .hpoint = 0,
+    .sleep_mode = LEDC_SLEEP_MODE_NO_ALIVE_NO_PD,
+    .flags = {0}
+  };
 
   esp_err_t err = ledc_channel_config(&ledcChannel);
   if (err != ESP_OK) {

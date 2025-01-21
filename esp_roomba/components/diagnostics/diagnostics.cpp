@@ -47,8 +47,10 @@ static auto init_adc() -> esp_err_t {
 
   // One-shot calibration
   adc_cali_curve_fitting_config_t cali_cfg = {
-    .unit_id = ADC_UNIT_1, .atten = ADC_ATTEN_DB_12, .bitwidth = ADC_BITWIDTH_DEFAULT,
-    // .chan   = ADC_CHANNEL_0, // optional if you want per-channel calibration
+    .unit_id = ADC_UNIT_1,
+    .chan = ADC_CHANNEL_0,
+    .atten = ADC_ATTEN_DB_12,
+    .bitwidth = ADC_BITWIDTH_DEFAULT,
   };
   ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_cfg, &adc_cali_hdl));
 

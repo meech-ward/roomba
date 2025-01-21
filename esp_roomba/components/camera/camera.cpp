@@ -51,6 +51,8 @@ static camera_config_t camera_config = {
   .pin_pclk = CAM_PIN_PCLK,
 
   .xclk_freq_hz = 20000000,           // 20000000,        // The clock frequency of the image sensor
+  .ledc_timer = LEDC_TIMER_0,
+  .ledc_channel = LEDC_CHANNEL_0,
   .pixel_format = PIXFORMAT_JPEG,     // The pixel format of the image: PIXFORMAT_ + YUV422|GRAYSCALE|RGB565|JPEG
   .frame_size = FRAMESIZE_SVGA,       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but it's intensive over wifi), //
                                       //  FRAMESIZE_SVGA,    // FRAMESIZE_XGA,    // FRAMESIZE_SVGA, //FRAMESIZE_UXGA,
@@ -66,7 +68,6 @@ static camera_config_t camera_config = {
   .grab_mode = CAMERA_GRAB_LATEST,    //  The image capture mode.
                                       // .sccb_i2c_port = 0,                 // Explicitly set I2C port
   .sccb_i2c_port = 1,                 // You're using I2C port 1
-
 };
 
 static auto init_camera() -> esp_err_t {

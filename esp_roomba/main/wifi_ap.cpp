@@ -33,6 +33,8 @@ auto setup_wifi() -> void {
         .ssid_hidden = 0,
         .max_connection = MAX_CONNECTIONS,
         .beacon_interval = beacon_interval,
+        .csa_count = 2,
+        .dtim_period = 1,
         .pairwise_cipher = WIFI_CIPHER_TYPE_CCMP,
         .ftm_responder = false,
         .pmf_cfg =
