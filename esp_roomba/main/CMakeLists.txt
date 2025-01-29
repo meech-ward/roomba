@@ -6,7 +6,7 @@ idf_component_register(
         "server_integration.cpp"
     INCLUDE_DIRS ""
     REQUIRES 
-          gpio diagnostics camera server
+          gpio diagnostics camera server wifi
           esp_wifi esp_timer openthread
 )
 

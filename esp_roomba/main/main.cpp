@@ -9,10 +9,12 @@
 #include "new_socket_server.hpp"
 #include "server_integration.hpp"
 #include "wifi_ap.hpp"
+#include "wifi_manager.hpp"
 
 static const char* TAG = "Main";
 
-constexpr size_t camStackSize = 4096 * 2;
+constexpr size_t camStackSize = 6144;
+constexpr size_t streamStackSize = 8192;
 constexpr size_t motorStackSize = 4096;
 constexpr size_t captureTaskPriority = configMAX_PRIORITIES - 5;
 constexpr size_t motorTaskPriority = configMAX_PRIORITIES - 3;
@@ -20,7 +22,7 @@ constexpr size_t streamTaskPriority = configMAX_PRIORITIES - 4;
 
 static StaticTask_t streamTaskBuffer;
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-static StackType_t streamTaskStack[camStackSize / sizeof(StackType_t)];
+static StackType_t streamTaskStack[streamStackSize / sizeof(StackType_t)];
 static StaticTask_t captureTaskBuffer;
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
 static StackType_t captureTaskStack[camStackSize / sizeof(StackType_t)];
@@ -40,12 +42,16 @@ static auto init_nvs() -> void {
 }
 
 static httpd_handle_t ws_server = nullptr;
-
+static auto setup_wifi_connect() -> void;
 extern "C" void app_main() {
   init_nvs();
-  setup_wifi();
-  // setup_wifi_connect([]() {
-  //   ESP_LOGI(TAG, "Connected to WiFi");
+  // setup_wifi();
+  setup_wifi_connect();
+  auto& wifi = wifi::WifiManager::instance();
+
+  while (!wifi.wifi_ready) {
+    vTaskDelay(pdMS_TO_TICKS(100));
+  }
 
   vTaskDelay(pdMS_TO_TICKS(1000));  // Give WiFi time to stabilize
 
@@ -97,7 +103,7 @@ extern "C" void app_main() {
   TaskHandle_t streamTaskHandle = xTaskCreateStaticPinnedToCore(
     camera_stream_task,
     "cam_stream_task",
-    camStackSize / sizeof(StackType_t),
+    streamStackSize / sizeof(StackType_t),
     ws_server,
     streamTaskPriority,
     streamTaskStack,
@@ -128,5 +134,46 @@ extern "C" void app_main() {
     }
 #endif
     vTaskDelay(pdMS_TO_TICKS(15000));
+  }
+}
+
+// connect to wifi
+void setup_wifi_connect() {
+  auto& wifi = wifi::WifiManager::instance();
+  // wifi.initialize_for_scan();
+  // wifi.scan_networks();
+  // return;
+
+  // Configure WiFi
+  wifi::WifiConfig config{
+    .ssid = "",
+    .password = "",
+    .connection_timeout = std::chrono::milliseconds(15000),
+    .max_retries = 5};
+
+  // Initialize
+  if (auto result = wifi.initialize(config); !result) {
+    ESP_LOGE("WIFI", "Failed to initialize WiFi");
+    return;
+  }
+
+  // Set up callbacks
+  wifi.on_connected([](const wifi::ConnectionInfo& info) {
+    printf("connected to wifi: %li\n", (long unsigned int)info.ip_info.ip.addr);
+
+    if (info.ip_info.ip.addr == 0) {
+      ESP_LOGE("WIFI", "Failed to get IP address");
+      return;
+    }
+
+    ESP_LOGI("WIFI", "Connected to WiFi! IP: " IPSTR, IP2STR(&info.ip_info.ip));
+  });
+
+  wifi.on_disconnected([](wifi::WifiError error) { ESP_LOGW("WIFI", "Disconnected from WiFi"); });
+
+  // Connect
+  if (auto result = wifi.connect(); !result) {
+    ESP_LOGE("WIFI", "Failed to connect to WiFi");
+    return;
   }
 }

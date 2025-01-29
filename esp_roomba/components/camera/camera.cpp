@@ -54,7 +54,7 @@ static camera_config_t camera_config = {
   .ledc_timer = LEDC_TIMER_0,
   .ledc_channel = LEDC_CHANNEL_0,
   .pixel_format = PIXFORMAT_JPEG,  // The pixel format of the image: PIXFORMAT_ + YUV422|GRAYSCALE|RGB565|JPEG
-  .frame_size = FRAMESIZE_VGA,  // FRAMESIZE_SVGA, // 800x600       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but
+  .frame_size = FRAMESIZE_HVGA,  // FRAMESIZE_SVGA, // 800x600       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but
                                 // it's intensive over wifi), //
                                 //   FRAMESIZE_SVGA,    // FRAMESIZE_XGA,    // FRAMESIZE_SVGA, //FRAMESIZE_UXGA,
                                 //    //FRAMESIZE_SVGA, FRAMESIZE_UXGA //
@@ -64,7 +64,7 @@ static camera_config_t camera_config = {
                                 //        resolution
                                 //         size of the image: FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA
   .jpeg_quality = 8,                  // The quality of the JPEG image, ranging from 0 to 63.
-  .fb_count = 4,                      // The number of frame buffers to use.
+  .fb_count = 8,                      // The number of frame buffers to use.
   .fb_location = CAMERA_FB_IN_PSRAM,  // Set the frame buffer storage location
   .grab_mode = CAMERA_GRAB_LATEST,    //  The image capture mode.
                                       // .sccb_i2c_port = 0,                 // Explicitly set I2C port
@@ -87,7 +87,10 @@ void setup() {
   // s_jpeg_buffer_copy = (uint8_t*)heap_caps_malloc(s_jpeg_buffer_len, MALLOC_CAP_SPIRAM);
   s_jpeg_buffer = (uint8_t*)malloc(s_jpeg_buffer_len);
   s_jpeg_buffer_copy = (uint8_t*)malloc(s_jpeg_buffer_len);
-
+  
+if ((s_jpeg_buffer == nullptr) || (s_jpeg_buffer_copy == nullptr)) {
+    ESP_LOGE(TAG, "Failed to allocate PSRAM buffers");
+}
   if (ESP_OK != init_camera()) {
     ESP_LOGE(TAG, "Camera Init Failed");
     return;
@@ -165,7 +168,7 @@ void camera_capture_task(void* arg) {
     // depends on a lot of factors
     // make sure you update the ws delay too
     // vTaskDelay(pdMS_TO_TICKS(30)); // 5640
-    vTaskDelay(pdMS_TO_TICKS(10));  // 2640
+    vTaskDelay(pdMS_TO_TICKS(30));  // 2640
   }
 }
 

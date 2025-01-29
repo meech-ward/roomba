@@ -16,9 +16,12 @@ static int s_ws_fd = -1;
 
 using namespace server;
 
-constexpr auto max_buf_size_to_send = 50000;
+// 34048 ov5640
+// 17628 ov2640
+
+constexpr auto max_buf_size_to_send = 16384;
 // constexpr auto prefered_loop_duration_us = 120 * 1000;  // ov5640
-  constexpr auto prefered_loop_duration_us = 60 * 1000; // ov2640
+constexpr auto prefered_loop_duration_us = 60 * 1000;  // ov2640
 auto camera_stream_task(void* arg) -> void {
   auto* s_server = static_cast<httpd_handle_t>(arg);
   ESP_LOGW(TAG, "Start Stream");
@@ -36,7 +39,7 @@ auto camera_stream_task(void* arg) -> void {
   uint64_t last_loop_time = esp_timer_get_time();
   while (true) {
     uint64_t current_time = esp_timer_get_time();
-    // ESP_LOGI(TAG, "Time since last loop: %llu us", current_time - last_loop_time);
+    ESP_LOGI(TAG, "Time since last loop: %llu us", current_time - last_loop_time);
     last_loop_time = current_time;
     if (!s_streaming || s_ws_fd < 0) {
       printf("No streaming %d, %d \n", static_cast<int>(s_streaming), s_ws_fd);
@@ -46,7 +49,7 @@ auto camera_stream_task(void* arg) -> void {
 
     if (heap_caps_get_free_size(MALLOC_CAP_INTERNAL) < max_buf_size_to_send) {
       ESP_LOGW(TAG, "Low memory, skipping frame");
-      vTaskDelay(pdMS_TO_TICKS(100));
+      vTaskDelay(pdMS_TO_TICKS(10));
       continue;
     }
 
@@ -60,7 +63,8 @@ auto camera_stream_task(void* arg) -> void {
     }
     if (jpeg_buffer.timestamp == prev_timestamp) {
       // Make sure we don't delay for 0
-      vTaskDelay(pdMS_TO_TICKS(prefered_loop_duration_us / 2 / 1000));
+      ESP_LOGW(TAG, "Duplicate JPEG data");
+      vTaskDelay(pdMS_TO_TICKS(1));
       continue;
     }
     prev_timestamp = jpeg_buffer.timestamp;
@@ -68,17 +72,17 @@ auto camera_stream_task(void* arg) -> void {
     // Prepare a WS frame
     ws_pkt.payload = jpeg_buffer.buffer;
     ws_pkt.len = jpeg_buffer.len;
+    ESP_LOGI(TAG, "JPEG length: %zu bytes", ws_pkt.len);
 
     // Send asynchronously
     // esp_err_t err = httpd_ws_send_frame_async(s_server, s_ws_fd, &ws_pkt);
     // send sync and block, seems to work better with no need to worry about backign up the queue
+    uint64_t send_start = esp_timer_get_time();
     esp_err_t err = httpd_ws_send_data(s_server, s_ws_fd, &ws_pkt);
-
-
-
-
-
-
+    uint64_t send_time = esp_timer_get_time() - send_start;
+    if (send_time > 100000) {  // Log if send takes >100ms
+      ESP_LOGW(TAG, "Long send time: %llu us", send_time);
+    }
     // try to level out how often the frame is sent
     uint64_t new_time = esp_timer_get_time();
     auto elapsed_us = new_time - end_of_loop_time;
@@ -106,6 +110,7 @@ auto camera_stream_task(void* arg) -> void {
     }
   }
 }
+
 
 auto handle_text_message(httpd_ws_frame_t& ws_pkt, uint8_t* buf, int fd) -> void {
   if (strcmp((char*)buf, "start") == 0) {
