@@ -17,7 +17,8 @@ static int s_ws_fd = -1;
 using namespace server;
 
 constexpr auto max_buf_size_to_send = 50000;
-
+// constexpr auto prefered_loop_duration_us = 120 * 1000;  // ov5640
+  constexpr auto prefered_loop_duration_us = 60 * 1000; // ov2640
 auto camera_stream_task(void* arg) -> void {
   auto* s_server = static_cast<httpd_handle_t>(arg);
   ESP_LOGW(TAG, "Start Stream");
@@ -31,7 +32,12 @@ auto camera_stream_task(void* arg) -> void {
     .len = 0,                      // Will update this per frame
   };
   uint32_t prev_timestamp = 0;
+  uint64_t end_of_loop_time = esp_timer_get_time();
+  uint64_t last_loop_time = esp_timer_get_time();
   while (true) {
+    uint64_t current_time = esp_timer_get_time();
+    // ESP_LOGI(TAG, "Time since last loop: %llu us", current_time - last_loop_time);
+    last_loop_time = current_time;
     if (!s_streaming || s_ws_fd < 0) {
       printf("No streaming %d, %d \n", static_cast<int>(s_streaming), s_ws_fd);
       vTaskDelay(pdMS_TO_TICKS(1000));
@@ -46,14 +52,15 @@ auto camera_stream_task(void* arg) -> void {
 
     auto jpeg_buffer = camera::copy_jpeg_buffer();
     if (
-      jpeg_buffer.buffer == nullptr || jpeg_buffer.len < 2 ||
-      jpeg_buffer.buffer[0] != camera::JPEG_SOI_MARKER_FIRST ||
+      jpeg_buffer.buffer == nullptr || jpeg_buffer.len < 2 || jpeg_buffer.buffer[0] != camera::JPEG_SOI_MARKER_FIRST ||
       jpeg_buffer.buffer[1] != camera::JPEG_SOI_MARKER_SECOND) {
       ESP_LOGW(TAG, "Invalid JPEG data");
       vTaskDelay(pdMS_TO_TICKS(1000));
       continue;
     }
     if (jpeg_buffer.timestamp == prev_timestamp) {
+      // Make sure we don't delay for 0
+      vTaskDelay(pdMS_TO_TICKS(prefered_loop_duration_us / 2 / 1000));
       continue;
     }
     prev_timestamp = jpeg_buffer.timestamp;
@@ -67,11 +74,27 @@ auto camera_stream_task(void* arg) -> void {
     // send sync and block, seems to work better with no need to worry about backign up the queue
     esp_err_t err = httpd_ws_send_data(s_server, s_ws_fd, &ws_pkt);
 
-    // 1 was so laggy beause of the frames just fucking piling up like a bitch
-    // 60 almost seams like 24 ish fps
-    // that was true until i did more things now 30 seems good
-    // not entirely sure why
-    vTaskDelay(pdMS_TO_TICKS(30));
+
+
+
+
+
+    // try to level out how often the frame is sent
+    uint64_t new_time = esp_timer_get_time();
+    auto elapsed_us = new_time - end_of_loop_time;
+    // Use microsecond precision by working in micros until the last moment
+    if (elapsed_us < prefered_loop_duration_us) {
+      int delay_us = prefered_loop_duration_us - elapsed_us;
+      // Convert to milliseconds at the last moment, rounding up
+      int32_t delay_ms = (delay_us + 999) / 1000;  // This rounds up
+      if (delay_ms > 0) {                          // Make sure we don't delay for 0
+        vTaskDelay(pdMS_TO_TICKS(delay_ms));
+      }
+    } else {
+      vTaskDelay(pdMS_TO_TICKS(1));
+    }
+
+    end_of_loop_time = esp_timer_get_time();
 
     if (err != ESP_OK) {
       // Typically means the client disconnected or send error
@@ -83,7 +106,6 @@ auto camera_stream_task(void* arg) -> void {
     }
   }
 }
-
 
 auto handle_text_message(httpd_ws_frame_t& ws_pkt, uint8_t* buf, int fd) -> void {
   if (strcmp((char*)buf, "start") == 0) {

@@ -12,9 +12,11 @@ import UIKit
 
 class ExternalCameraViewController: UIViewController {
   var previewImagesButtonVC: UIViewController!
-  var repository: Repository!
+  var roombaService: Repository!
+
   @IBOutlet var wsConnectionButton: UIButton!
   @IBOutlet var imageView: UIImageView!
+  @IBOutlet var fpsLabel: UILabel!
 
   private var streamingTask: Task<Void, Never>?
 
@@ -27,11 +29,12 @@ class ExternalCameraViewController: UIViewController {
 
     setupWSConnectionButton()
     setupStreaming()
+    setupFPSStreaming()
   }
 
   private func setupWSConnectionButton() {
     Task {
-      for await state in self.repository.connectionState.stream() {
+      for await state in self.roombaService.connectionState.stream() {
         let systemImageName: String
         switch state {
         case .connected:
@@ -50,11 +53,19 @@ class ExternalCameraViewController: UIViewController {
 
   private func setupStreaming() {
     streamingTask = Task.detached {
-      for await data in await self.repository.monitorDataStream() {
+      for await data in await self.roombaService.monitorDataStream() {
         let image = UIImage(data: data)
         await MainActor.run {
           self.imageView.image = image
         }
+      }
+    }
+  }
+  
+  private func setupFPSStreaming() {
+    Task {
+      for await fps in self.roombaService.fps.stream() {
+        await MainActor.run { fpsLabel.text = "\(String(format: "%.2f", fps)) fps" }
       }
     }
   }
@@ -64,6 +75,10 @@ class ExternalCameraViewController: UIViewController {
     using state: UIContentUnavailableConfigurationState
   ) {
     contentUnavailableConfiguration = config
+  }
+
+  @IBAction func sliderValueChanged(_ sender: UISlider) {
+    roombaService.vaccumSpeed.update(Int8(sender.value))
   }
 
   // MARK: - Take Photo

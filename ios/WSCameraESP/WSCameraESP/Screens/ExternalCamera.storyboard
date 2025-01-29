@@ -19,7 +19,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eIM-4Q-td6">
                                 <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                <color key="backgroundColor" systemColor="tableBackgroundColor"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Per-7k-QQs">
                                 <rect key="frame" x="762" y="20" width="50" height="50"/>
@@ -34,32 +34,52 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-100" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ff1-8o-txC">
+                                <rect key="frame" x="249" y="322" width="354" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="350" id="Tc3-WL-d8W"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="Smn-UN-5DG"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FPS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5L-Pw-as5">
+                                <rect key="frame" x="410.66666666666669" y="35" width="31" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="h5L-Pw-as5" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="CRB-CH-P0k"/>
                             <constraint firstAttribute="trailing" secondItem="Per-7k-QQs" secondAttribute="trailing" constant="40" id="HWy-hX-sUs"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ff1-8o-txC" secondAttribute="bottom" constant="20" id="HwJ-kC-Itf"/>
+                            <constraint firstItem="ff1-8o-txC" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Icr-2Q-RXf"/>
                             <constraint firstItem="eIM-4Q-td6" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="OUw-2y-Yz2"/>
                             <constraint firstAttribute="bottom" secondItem="eIM-4Q-td6" secondAttribute="bottom" id="PqA-O6-idf"/>
                             <constraint firstItem="Per-7k-QQs" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="20" id="bCE-Hd-RkD"/>
                             <constraint firstAttribute="trailing" secondItem="eIM-4Q-td6" secondAttribute="trailing" id="biA-vn-bDO"/>
+                            <constraint firstItem="h5L-Pw-as5" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="35" id="gdx-7I-YGS"/>
                             <constraint firstItem="eIM-4Q-td6" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="jIS-4V-GNr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fpsLabel" destination="h5L-Pw-as5" id="XXZ-Yo-efv"/>
                         <outlet property="imageView" destination="eIM-4Q-td6" id="mVR-VW-sgk"/>
                         <outlet property="wsConnectionButton" destination="Per-7k-QQs" id="9aN-3o-TeG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="288" y="-698"/>
+            <point key="canvasLocation" x="287.32394366197184" y="-698.47328244274809"/>
         </scene>
     </scenes>
     <resources>
         <image name="checkmark.icloud.fill" catalog="system" width="128" height="90"/>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="tableBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

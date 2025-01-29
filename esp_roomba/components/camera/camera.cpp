@@ -50,24 +50,26 @@ static camera_config_t camera_config = {
   .pin_href = CAM_PIN_HREF,
   .pin_pclk = CAM_PIN_PCLK,
 
-  .xclk_freq_hz = 20000000,           // 20000000,        // The clock frequency of the image sensor
+  .xclk_freq_hz = 20000000,  // 20000000,        // The clock frequency of the image sensor
   .ledc_timer = LEDC_TIMER_0,
   .ledc_channel = LEDC_CHANNEL_0,
-  .pixel_format = PIXFORMAT_JPEG,     // The pixel format of the image: PIXFORMAT_ + YUV422|GRAYSCALE|RGB565|JPEG
-  .frame_size = FRAMESIZE_SVGA,       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but it's intensive over wifi), //
-                                      //  FRAMESIZE_SVGA,    // FRAMESIZE_XGA,    // FRAMESIZE_SVGA, //FRAMESIZE_UXGA,
-                                      //   //FRAMESIZE_SVGA, FRAMESIZE_UXGA //
-                                      //     FRAMESIZE_QQVGA, //, // ,       // FRAMESIZE_VGA,  // FRAMESIZE_QVGA,    //
-                                      //      FRAMESIZE_VGA,     // FRAMESIZE_UXGA,
-                                      //      //FRAMESIZE_UXGA, // The
-                                      //       resolution
-                                      //        size of the image: FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA
+  .pixel_format = PIXFORMAT_JPEG,  // The pixel format of the image: PIXFORMAT_ + YUV422|GRAYSCALE|RGB565|JPEG
+  .frame_size = FRAMESIZE_VGA,  // FRAMESIZE_SVGA, // 800x600       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but
+                                // it's intensive over wifi), //
+                                //   FRAMESIZE_SVGA,    // FRAMESIZE_XGA,    // FRAMESIZE_SVGA, //FRAMESIZE_UXGA,
+                                //    //FRAMESIZE_SVGA, FRAMESIZE_UXGA //
+                                //      FRAMESIZE_QQVGA, //, // ,       // FRAMESIZE_VGA,  // FRAMESIZE_QVGA,    //
+                                //       FRAMESIZE_VGA,     // FRAMESIZE_UXGA,
+                                //       //FRAMESIZE_UXGA, // The
+                                //        resolution
+                                //         size of the image: FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA
   .jpeg_quality = 8,                  // The quality of the JPEG image, ranging from 0 to 63.
   .fb_count = 4,                      // The number of frame buffers to use.
   .fb_location = CAMERA_FB_IN_PSRAM,  // Set the frame buffer storage location
   .grab_mode = CAMERA_GRAB_LATEST,    //  The image capture mode.
                                       // .sccb_i2c_port = 0,                 // Explicitly set I2C port
   .sccb_i2c_port = 1,                 // You're using I2C port 1
+
 };
 
 static auto init_camera() -> esp_err_t {
@@ -79,7 +81,6 @@ static auto init_camera() -> esp_err_t {
 
   return ESP_OK;
 }
-
 
 void setup() {
   // s_jpeg_buffer = (uint8_t*)heap_caps_malloc(s_jpeg_buffer_len, MALLOC_CAP_SPIRAM);
@@ -94,9 +95,9 @@ void setup() {
 
   s_fb_mutex = xSemaphoreCreateMutex();
 }
-
 auto copy_jpeg_buffer() -> JpegBuffer {
-  if (xSemaphoreTake(s_fb_mutex, portMAX_DELAY) != pdTRUE) {
+  static constexpr TickType_t xTicksToWait = pdMS_TO_TICKS(3000);  // portMAX_DELAY
+  if (xSemaphoreTake(s_fb_mutex, xTicksToWait) != pdTRUE) {
     return JpegBuffer{nullptr, 0, 0};
   }
 
@@ -163,9 +164,9 @@ void camera_capture_task(void* arg) {
     // needs to be tweaked, not entirely sure why or when
     // depends on a lot of factors
     // make sure you update the ws delay too
-    vTaskDelay(pdMS_TO_TICKS(30));
+    // vTaskDelay(pdMS_TO_TICKS(30)); // 5640
+    vTaskDelay(pdMS_TO_TICKS(10));  // 2640
   }
 }
 
 }  // namespace camera
- 

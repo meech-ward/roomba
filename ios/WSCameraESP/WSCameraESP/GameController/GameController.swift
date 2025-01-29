@@ -157,9 +157,10 @@ actor GameController {
 //        print("motion:", attitude.roll, attitude.pitch, attitude.yaw)
 //    }
 //  }
+  
+  
+  
     
-
-
   private func configureController(_ controller: GCController) {
     Task.detached {
       let leftThumb = await self.leftThumb
@@ -169,12 +170,12 @@ actor GameController {
       }
       
       gamepad.rightThumbstick.valueChangedHandler = { _, x, y in
-        print("from gamepad right", x, y)
+        print("right", y)
         rightThumb.update((x, y))
       }
       
       gamepad.leftThumbstick.valueChangedHandler = { _, x, y in
-        print("from gamepad left", x, y)
+        print("left", y)
         leftThumb.update((x, y))
       }
       

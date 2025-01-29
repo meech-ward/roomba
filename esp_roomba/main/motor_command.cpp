@@ -11,19 +11,18 @@
 #include "motor.hpp"
 
 static const char* TAG = "motor_control";
-static constexpr int TASK_DELAY_MS = 10;         // Base delay between iterations
-static constexpr int NO_COMMAND_DELAY_MS = 100;  // Longer delay when no new commands
+static constexpr int delay_ms = 10;
 // 400ms in microseconds, the amount of time without a command before halting the motors
 static constexpr uint64_t timout_micros = 400000;
 
 static MotorCommand command;
 static std::atomic<uint64_t> sequence{0};
 // left
-static gpio::Motor motor1{GPIO_NUM_5, GPIO_NUM_3, GPIO_NUM_4, LEDC_CHANNEL_1};
+static gpio::Motor motor1{GPIO_NUM_5, GPIO_NUM_3, GPIO_NUM_4, LEDC_CHANNEL_0};
 // right
-static gpio::Motor motor2{GPIO_NUM_6, GPIO_NUM_8, GPIO_NUM_9, LEDC_CHANNEL_2};
+static gpio::Motor motor2{GPIO_NUM_6, GPIO_NUM_8, GPIO_NUM_9, LEDC_CHANNEL_1};
 // vaccum & brush
-static gpio::Motor motor3{GPIO_NUM_7, GPIO_NUM_43, GPIO_NUM_44, LEDC_CHANNEL_3};
+static gpio::Motor motor3{GPIO_NUM_7, GPIO_NUM_43, GPIO_NUM_44, LEDC_CHANNEL_2};
 
 auto write_motor_data_zero() -> void {
   memset(&command, 0, sizeof(MotorCommand));
@@ -83,17 +82,18 @@ void motor_control_task(void* arg) {
   stop_motors();
 
   while (true) {
+
     bool got_new_command = read_motor_data(current, last_sequence);
-    if (!got_new_command) {
-      vTaskDelay(NO_COMMAND_DELAY_MS);
-      continue;
-    }
 
     // If there's no instructions for 400ms, stop motors
     uint64_t now = esp_timer_get_time();
     if (now - current.timestamp > timout_micros) {
       stop_motors();
-      vTaskDelay(TASK_DELAY_MS);
+      vTaskDelay(delay_ms);
+      continue;
+    }
+
+    if (!got_new_command) {
       continue;
     }
 
@@ -118,12 +118,22 @@ void motor_control_task(void* arg) {
       ESP_LOGE(TAG, "Motor 3 forward failed with error code: %d", static_cast<int>(m3Result.error()));
     }
 
+    ESP_LOGI(
+      TAG,
+      "Motors: M1=%d%% %s, M2=%d%% %s, M3=%d%% %s",
+      current.speeds[0],
+      m1IsForward ? "FWD" : "REV",
+      current.speeds[1],
+      m2IsForward ? "FWD" : "REV",
+      current.speeds[2],
+      m3IsForward ? "FWD" : "REV");
+
     last_sequence = current.sequence;
 
     if (interval > 0) {
       vTaskDelayUntil(&lastWakeTime, interval);
     } else {
-      vTaskDelay(TASK_DELAY_MS);
+      vTaskDelay(delay_ms);
     }
   }
 }

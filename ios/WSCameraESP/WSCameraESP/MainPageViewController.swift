@@ -28,7 +28,7 @@ class MainPageViewController: UIViewController {
     let leftVC = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as! SettingsViewController
 
     let rightVC = UIStoryboard(name: "ExternalCamera", bundle: nil).instantiateInitialViewController() as! ExternalCameraViewController
-    rightVC.repository = Repository.shared
+    rightVC.roombaService = Repository.shared
 
     let pages = [leftVC, rightVC]
 
@@ -53,6 +53,7 @@ class MainPageViewController: UIViewController {
 
   func configureNetwork() async {
     let url = URL(string: "ws://192.168.4.1/ws")!
+//    let url = URL(string: "ws://10.0.0.212/motor_control")!
     let (error, _, success) = await mightFail { try await repository.configure(withUrl: url) }
 
     guard success else {

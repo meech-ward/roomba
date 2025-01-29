@@ -38,6 +38,9 @@ actor Repository {
   @MainActor
   private(set) var dataMessage = AsyncStreamStateManager<Data?>(nil)
 
+  @MainActor
+  private(set) var vaccumSpeed = AsyncStreamStateManager<Int8>(0)
+
   private(set) var dataWebSocket: DataWebSocket?
   private(set) var networkManager: NetworkManager?
 
@@ -130,6 +133,7 @@ actor Repository {
   private func processWebSocketMessage(data: Data) async {
     await dataMessage.update(data)
     dataContinuations.values.forEach { $0.yield(data) }
+    await recordFrame()
   }
 
   private func processWebSocketMessage(error: Error) async {
@@ -144,6 +148,29 @@ actor Repository {
     dataContinuations[id] = continuation
   }
 
+  private var timestamps: [CFAbsoluteTime] = Array(repeating: 0, count: 60)
+  private var currentIndex = 0
+  private let capacity = 60
+
+  @MainActor
+  let fps = AsyncStreamStateManager<Double>(0)
+  
+  private func recordFrame() async {
+    timestamps[currentIndex] = CFAbsoluteTimeGetCurrent()
+    currentIndex = (currentIndex + 1) % capacity
+    let now = CFAbsoluteTimeGetCurrent()
+    let oldestTime = timestamps.min() ?? now
+
+    // Avoid division by zero
+    let duration = now - oldestTime
+    guard duration > 0 else {
+      fps.update(0)
+      return
+    }
+
+    fps.update(Double(capacity) / duration)
+  }
+
   func monitorDataStream() -> AsyncStream<Data> {
     return AsyncStream { [weak self] continuation in
       guard let self = self else { return }
@@ -153,6 +180,7 @@ actor Repository {
         await self.setDataContinuation(id: id, continuation: continuation)
         if let data = await self.dataMessage.value {
           continuation.yield(data)
+          await recordFrame()
         }
       }
 
@@ -209,8 +237,9 @@ actor Repository {
     motorDataTask?.cancel()
     motorDataTask = Task.detached {
       while Task.isCancelled == false {
-        print(await self.leftMotor.speed)
-        print(await self.rightMotor.speed)
+        let vaccumMotorSpeed = await self.vaccumSpeed.value
+        await self.vaccumMotor.set(speed: vaccumMotorSpeed)
+        await self.brushMotor.set(speed: vaccumMotorSpeed)
         let binaryData = await MotorCommand.toBinaryData(motors: motors)
         let (error, _, success) = await mightFail { try await dataWebSocket.send(data: binaryData) }
         guard success else {
@@ -218,7 +247,7 @@ actor Repository {
           return
         }
         // Must keep sending data or motors will shut down
-        try? await Task.sleep(for: .milliseconds(50))
+        try? await Task.sleep(for: .milliseconds(150))
       }
     }
   }
@@ -238,10 +267,8 @@ actor Repository {
       await withTaskGroup(of: Void.self) { group in
         group.addTask {
           for await (x, y) in await gameController.leftThumb.stream() {
-            let forward = y >= 0
-            let speed = UInt8(abs(y) * 255)
-            await self.leftMotor.set(speed: speed, forward: forward)
-            print("left thumb", x, y)
+            let speed = Int8(y * 100)
+            await self.leftMotor.set(speed: speed)
             if Task.isCancelled {
               break
             }
@@ -250,10 +277,8 @@ actor Repository {
 
         group.addTask {
           for await (x, y) in await gameController.rightThumb.stream() {
-            let forward = y >= 0
-            let speed = UInt8(abs(y) * 255)
-            await self.rightMotor.set(speed: speed, forward: forward)
-            print("right thumb", x, y)
+            let speed = Int8(y * 100)
+            await self.rightMotor.set(speed: speed)
             if Task.isCancelled {
               break
             }
