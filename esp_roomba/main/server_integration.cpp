@@ -3,6 +3,7 @@
 #include <cJSON.h>
 #include <esp_log.h>
 #include <freertos/FreeRTOS.h>
+#include <sys/_stdint.h>
 
 #include "camera.hpp"
 #include "esp_http_server.h"
@@ -300,6 +301,15 @@ auto handle_text_message(httpd_handle_t& server, httpd_ws_frame_t& ws_pkt, uint8
     ESP_LOGI(TAG, "Start command sent");
   }
 
+  cJSON* stop = cJSON_GetObjectItem(json, "stop");
+  if (stop != nullptr) {
+    ESP_LOGI(TAG, "Got stop request");
+    if (auto result = s_roomba->stop(); !result) {
+      ESP_LOGE(TAG, "Failed to stop: error %d", (int)result.error());
+    }
+    ESP_LOGI(TAG, "stop command sent");
+  }
+
   cJSON* stream_sensors = cJSON_GetObjectItem(json, "streamSensors");
   if (stream_sensors != nullptr) {
     ESP_LOGI(TAG, "Got value: %d", stream_sensors->valueint);
@@ -316,12 +326,28 @@ auto handle_text_message(httpd_handle_t& server, httpd_ws_frame_t& ws_pkt, uint8
   cJSON_Delete(json);
 }
 
+MotorCommand current_motor_command;
 auto handle_binary_message(httpd_handle_t& server, httpd_ws_frame_t& ws_pkt, uint8_t* buf, int fd) -> void {
+  if (s_roomba == nullptr) {
+    ESP_LOGE(TAG, "Roomba not initialized");
+    return;
+  }
   if (ws_pkt.len != MotorCommand::data_size) {
     ESP_LOGW(TAG, "Invalid binary packet size: %d", ws_pkt.len);
     return;
   }
-  write_motor_data(buf);
+  write_and_read_motor_data(buf, current_motor_command);
+
+  int16_t rightMotor = (int8_t)current_motor_command.speeds[1] * 5;
+  int16_t leftMotor = (int8_t)current_motor_command.speeds[0] * 5;
+  if (auto result = s_roomba->driveDirect(rightMotor, leftMotor); !result) {
+    ESP_LOGE(TAG, "Failed to drive direct: error %d", (int)result.error());
+  }
+  int8_t sideBrush = current_motor_command.speeds[2] * 127 / 100;
+  int8_t mainBrush = current_motor_command.speeds[3] * 127 / 100;
+  if (auto result = s_roomba->motorsPWM(mainBrush, sideBrush, 0); !result) {
+    ESP_LOGE(TAG, "Failed to drive direct: error %d", (int)result.error());
+  }
 }
 
 void cleanup_server_integration() {

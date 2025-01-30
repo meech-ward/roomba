@@ -34,5 +34,5 @@ struct MotorCommand {
 // Functions remain the same but now expect 4 bytes of signed data
 auto write_motor_data(const uint8_t* data) -> void;
 auto write_motor_data_zero() -> void;
-
+auto write_and_read_motor_data(const uint8_t* data, MotorCommand& output) -> void;
 auto motor_control_task(void* arg) -> void;

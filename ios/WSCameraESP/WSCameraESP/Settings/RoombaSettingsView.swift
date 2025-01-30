@@ -19,6 +19,9 @@ struct RoombaSettingsView: View {
         Button("Start") {
           handleAsyncTask { try await roomba.startRoomba() }
         }
+        Button("Stop") {
+          handleAsyncTask { try await roomba.stopRoomba() }
+        }
       }
       
       Section(header: Text("Display")) {

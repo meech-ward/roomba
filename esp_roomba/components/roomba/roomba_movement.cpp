@@ -73,4 +73,27 @@ auto Roomba::drivePWM(int16_t rightPWM, int16_t leftPWM) noexcept -> std::expect
 
   std::lock_guard<std::mutex> lock(uart_mutex_);
   return sendCommand(CMD_DRIVE_PWM, data);
+}
+
+auto Roomba::motorsPWM(int8_t mainBrush, int8_t sideBrush, uint8_t vacuum) noexcept -> std::expected<void, Error> {
+  if (!initialized_) {
+    return std::unexpected(Error::InitializationError);
+  }
+  if (currentMode_ == Mode::Off || currentMode_ == Mode::Passive) {
+    return std::unexpected(Error::InvalidParameter);
+  }
+
+  // Clamp the values to their valid ranges
+  mainBrush = std::clamp<int8_t>(mainBrush, -127, 127);
+  sideBrush = std::clamp<int8_t>(sideBrush, -127, 127);
+  vacuum = std::clamp<uint8_t>(vacuum, 0, 127);
+
+  uint8_t data[3]{
+    static_cast<uint8_t>(mainBrush),
+    static_cast<uint8_t>(sideBrush),
+    vacuum
+  };
+
+  std::lock_guard<std::mutex> lock(uart_mutex_);
+  return sendCommand(CMD_MOTORS_PWM, data);
 } 

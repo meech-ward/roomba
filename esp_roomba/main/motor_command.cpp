@@ -34,6 +34,15 @@ auto write_motor_data(const uint8_t* data) -> void {
   command.sequence = sequence.fetch_add(1);
   command.timestamp = esp_timer_get_time();
 }
+auto write_and_read_motor_data(const uint8_t* data, MotorCommand& output) -> void {
+  memcpy(&command.speeds, data, MotorCommand::data_size);
+
+  // Update metadata
+  command.sequence = sequence.fetch_add(1);
+  command.timestamp = esp_timer_get_time();
+
+  memcpy(&output, &command, sizeof(MotorCommand));
+}
 
 static auto read_motor_data(MotorCommand& output, uint64_t last_sequence) -> bool {
   memcpy(&output, &command, sizeof(MotorCommand));

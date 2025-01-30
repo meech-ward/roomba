@@ -250,6 +250,10 @@ actor RoombaService {
     try await sendCommand(["start": true])
   }
 
+  func stopRoomba() async throws {
+    try await sendCommand(["stop": true])
+  }
+
   func playSong() async throws {
     try await sendCommand(["playSong": true])
   }

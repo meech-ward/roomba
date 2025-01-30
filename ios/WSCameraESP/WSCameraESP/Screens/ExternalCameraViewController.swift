@@ -6,9 +6,9 @@
 //
 
 import AVFoundation
+import MightFail
 import SwiftUI
 import UIKit
-import MightFail
 
 class ExternalCameraViewController: UIViewController {
   var previewImagesButtonVC: UIViewController!
@@ -43,9 +43,10 @@ class ExternalCameraViewController: UIViewController {
     )
     crashAnimationVC = UIHostingController(rootView: crashView)
     addFullScreenSubViewController(crashAnimationVC)
+    self.view.sendSubviewToBack(crashAnimationVC.view)
+    self.view.sendSubviewToBack(imageView)
     crashAnimationVC.view.backgroundColor = .clear
   }
-
 
   private func setupWSConnectionButton() {
     Task {
@@ -104,21 +105,22 @@ class ExternalCameraViewController: UIViewController {
   }
 
   @objc func tap() {
-    Task {
-      defer {
-        imageView.isHidden = false
-        config = UIContentUnavailableConfiguration.empty()
-        setNeedsUpdateContentUnavailableConfiguration()
-      }
-      imageView.isHidden = true
-      config = UIContentUnavailableConfiguration.loading()
-      setNeedsUpdateContentUnavailableConfiguration()
-      let (error, _, success) = await mightFail { try await takePhoto() }
-      guard success else {
-        print("error capturing photo \(error)")
-        showErrorAlert(message: "could not capture photo")
-        return
-      }
-    }
+    roombaService.vaccumSpeed.update(Int8(0))
+//    Task {
+//      defer {
+//        imageView.isHidden = false
+//        config = UIContentUnavailableConfiguration.empty()
+//        setNeedsUpdateContentUnavailableConfiguration()
+//      }
+//      imageView.isHidden = true
+//      config = UIContentUnavailableConfiguration.loading()
+//      setNeedsUpdateContentUnavailableConfiguration()
+//      let (error, _, success) = await mightFail { try await takePhoto() }
+//      guard success else {
+//        print("error capturing photo \(error)")
+//        showErrorAlert(message: "could not capture photo")
+//        return
+//      }
+//    }
   }
 }

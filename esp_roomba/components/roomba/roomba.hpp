@@ -227,6 +227,8 @@ class Roomba {
   [[nodiscard]] auto startStreamTask(StreamCallback callback) noexcept -> std::expected<void, Error>;
   [[nodiscard]] auto stopStreamTask() noexcept -> std::expected<void, Error>;
 
+  auto motorsPWM(int8_t mainBrush, int8_t sideBrush, uint8_t vacuum) noexcept -> std::expected<void, Error>;
+
  private:
   // ---------------------------------------------------------------------
   // Constants / Opcodes
@@ -242,7 +244,8 @@ class Roomba {
   static constexpr uint8_t CMD_DOCK = 143;
   static constexpr uint8_t CMD_POWER = 133;
   static constexpr uint8_t CMD_DRIVE = 137;
-  static constexpr uint8_t CMD_DRIVE_DIRECT = 145;
+  static constexpr uint8_t CMD_DRIVE_DIRECT = 145; // main motors
+  static constexpr uint8_t CMD_PWM_MOTORS = 144; // side brush and vacuum
   static constexpr uint8_t CMD_MOTORS = 138;
   static constexpr uint8_t CMD_LEDS = 139;
   static constexpr uint8_t CMD_SONG = 140;
@@ -296,4 +299,6 @@ class Roomba {
   
   // Private streaming task method
   static void streamTaskFunction(void* arg);
+
+  static constexpr uint8_t CMD_MOTORS_PWM{144};
 };
