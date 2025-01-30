@@ -6,9 +6,9 @@
 //
 
 import AVFoundation
-import MightFail
 import SwiftUI
 import UIKit
+import MightFail
 
 class ExternalCameraViewController: UIViewController {
   var previewImagesButtonVC: UIViewController!
@@ -20,6 +20,10 @@ class ExternalCameraViewController: UIViewController {
 
   private var streamingTask: Task<Void, Never>?
 
+  private var crashAnimationVC: UIHostingController<CrashAnimationView>!
+  private var leftBumperPressed = false
+  private var rightBumperPressed = false
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -27,10 +31,21 @@ class ExternalCameraViewController: UIViewController {
 
     view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap)))
 
+    setupCrashAnimationView()
     setupWSConnectionButton()
     setupStreaming()
     setupFPSStreaming()
   }
+
+  private func setupCrashAnimationView() {
+    let crashView = CrashAnimationView(
+      roombaService: roombaService
+    )
+    crashAnimationVC = UIHostingController(rootView: crashView)
+    addFullScreenSubViewController(crashAnimationVC)
+    crashAnimationVC.view.backgroundColor = .clear
+  }
+
 
   private func setupWSConnectionButton() {
     Task {
@@ -61,7 +76,7 @@ class ExternalCameraViewController: UIViewController {
       }
     }
   }
-  
+
   private func setupFPSStreaming() {
     Task {
       for await fps in self.roombaService.fps.stream() {

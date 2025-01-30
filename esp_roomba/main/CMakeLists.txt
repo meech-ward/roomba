@@ -6,8 +6,8 @@ idf_component_register(
         "server_integration.cpp"
     INCLUDE_DIRS ""
     REQUIRES 
-          gpio diagnostics camera server wifi
-          esp_wifi esp_timer openthread
+          gpio diagnostics camera server wifi roomba
+          esp_wifi esp_timer openthread json
 )
 
 set(CMAKE_CXX_STANDARD 23)

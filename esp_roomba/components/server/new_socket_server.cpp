@@ -76,9 +76,9 @@ static auto ws_handler(httpd_req_t* req) -> esp_err_t {
   int fd = httpd_req_to_sockfd(req);
   if (ws_pkt.type == HTTPD_WS_TYPE_BINARY) {
     // Handle binary motor commands
-    g_ws_binary_handler(ws_pkt, buf, fd);
+    g_ws_binary_handler(s_server, ws_pkt, buf, fd);
   } else if (ws_pkt.type == HTTPD_WS_TYPE_TEXT) {
-    g_ws_text_handler(ws_pkt, buf, fd);
+    g_ws_text_handler(s_server, ws_pkt, buf, fd);
   }
 
   free(buf);

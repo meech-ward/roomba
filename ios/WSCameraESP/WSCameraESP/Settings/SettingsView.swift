@@ -7,7 +7,9 @@ struct PageData: Identifiable, Hashable {
     var id: String {
       rawValue
     }
+
     case generalSettings
+    case roombaSettings
   }
 
   let id: Page
@@ -36,10 +38,12 @@ struct SettingsView: View {
     switch page {
     case .generalSettings:
       return PageData(id: .generalSettings, icon: "chart.bar.fill", title: "General Stats")
+    case .roombaSettings:
+      return PageData(id: .roombaSettings, icon: "circle.circle", title: "Roomba Settings")
     }
   }
 
-  let pages: [PageData.Page] = [.generalSettings]
+  let pages: [PageData.Page] = [.generalSettings, .roombaSettings]
   @State private var selectedPage: PageData.Page? = .generalSettings
 
   var body: some View {
@@ -59,6 +63,8 @@ struct SettingsView: View {
           switch selectedPage {
           case .generalSettings:
             GeneralSettingsView().environment(viewModel)
+          case .roombaSettings:
+            RoombaSettingsView().environment(viewModel)
           case .none:
             EmptyView()
           }

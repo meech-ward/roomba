@@ -8,7 +8,6 @@ struct Log: Identifiable, Equatable {
   let timestamp = Date().formatted(date: .omitted, time: .standard)
 }
 
-
 actor RoombaService {
   @MainActor
   static let shared = RoombaService()
@@ -127,7 +126,24 @@ actor RoombaService {
     await logs.update(Log(message: "Received string: \(string)"))
   }
 
+  @MainActor
+  let sensors = AsyncStreamStateManager<RoombaSensorData>(RoombaSensorData())
+  private func websocketDidReceiveSensorData(_ data: Data) async {
+    let (error, sensorData) = mightFail { try RoombaDataParser.parse(data: data) }
+    guard let sensorData else {
+      print("couldn't do anything with this data \(error.localizedDescription)")
+      await logs.update(Log(message: "Could not parse sensor data \(error.localizedDescription)"))
+      return
+    }
+
+    await MainActor.run { sensors.update(sensorData) }
+  }
+
   private func processWebSocketMessage(data: Data) async {
+    if data.count < 200 {
+      await websocketDidReceiveSensorData(data)
+      return
+    }
     await dataMessage.update(data)
     dataContinuations.values.forEach { $0.yield(data) }
     await recordFrame()
@@ -151,7 +167,7 @@ actor RoombaService {
 
   @MainActor
   let fps = AsyncStreamStateManager<Double>(0)
-  
+
   private func recordFrame() async {
     timestamps[currentIndex] = CFAbsoluteTimeGetCurrent()
     currentIndex = (currentIndex + 1) % capacity
@@ -216,6 +232,49 @@ actor RoombaService {
     }
     await logs.update(Log(message: "Stopped stream"))
     await isStreaming.update(false)
+  }
+
+  func updateDisplay(_ display: String) async throws {
+    try await sendCommand(["display": display])
+  }
+
+  func safeMode() async throws {
+    try await sendCommand(["mode": 0])
+  }
+
+  func fullMode() async throws {
+    try await sendCommand(["mode": 1])
+  }
+
+  func startRoomba() async throws {
+    try await sendCommand(["start": true])
+  }
+
+  func playSong() async throws {
+    try await sendCommand(["playSong": true])
+  }
+
+  func playSong2() async throws {
+    try await sendCommand(["playSong2": true])
+  }
+
+  func playPunk() async throws {
+    try await sendCommand(["playDaftPunk": true])
+  }
+
+  func streamSensors(_ stream: Bool) async throws {
+    try await sendCommand(["streamSensors": stream])
+  }
+
+  private func sendCommand(_ command: [String: Any]) async throws {
+    guard let dataWebSocket else {
+      throw NSError(domain: "No websocket connection", code: 0, userInfo: nil)
+    }
+
+    guard let jsonData = try? JSONSerialization.data(withJSONObject: command), let jsonString = String(data: jsonData, encoding: .utf8) else {
+      throw NSError(domain: "Invalid JSON data", code: 0, userInfo: nil)
+    }
+    try await dataWebSocket.send(message: jsonString)
   }
 
   // MARK: - Motor data out
