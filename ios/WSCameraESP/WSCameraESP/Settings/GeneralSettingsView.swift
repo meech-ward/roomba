@@ -2,37 +2,37 @@ import MightFail
 import SwiftUI
 
 struct GeneralSettingsView: View {
-  private var repository: Repository = .shared
+  private var roomba: RoombaService = .shared
   @State private var logs = BoundedDeque<Log>(maxSize: 30)
 
   var body: some View {
     List {
       Section(header: Text("Connection")) {
-        StatRow(title: "WebSocket", value: "\(repository.connectionState.observable.value)")
+        StatRow(title: "WebSocket", value: "\(roomba.connectionState.observable.value)")
       }
 
       Section(header: Text("Streaming")) {
-        StatRow(title: "Is streaming", value: "\(repository.isStreaming.observable.value)")
+        StatRow(title: "Is streaming", value: "\(roomba.isStreaming.observable.value)")
         Button("Start Sreaming") {
           Task {
-            await self.repository.startStream()
+            await self.roomba.startStream()
           }
         }
         Button("Stop Sreaming") {
           Task {
-            await self.repository.stopStream()
+            await self.roomba.stopStream()
           }
         }
 
         Button("Start Sending Motor Data") {
           Task {
-            await self.repository.startSendingMotorData()
+            await self.roomba.startSendingMotorData()
           }
         }
 
         Button("Stop Sending Motor Data") {
           Task {
-            await self.repository.stopSendingMotorData()
+            await self.roomba.stopSendingMotorData()
           }
         }
       }
@@ -46,7 +46,7 @@ struct GeneralSettingsView: View {
     .listStyle(GroupedListStyle())
     .navigationTitle("General Stats")
     .task {
-      for await log in  repository.logs.stream() {
+      for await log in  roomba.logs.stream() {
         logs.add(log)
       }
     }

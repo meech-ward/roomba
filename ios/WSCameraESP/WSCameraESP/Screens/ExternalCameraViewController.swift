@@ -12,7 +12,7 @@ import UIKit
 
 class ExternalCameraViewController: UIViewController {
   var previewImagesButtonVC: UIViewController!
-  var roombaService: Repository!
+  var roombaService: RoombaService!
 
   @IBOutlet var wsConnectionButton: UIButton!
   @IBOutlet var imageView: UIImageView!

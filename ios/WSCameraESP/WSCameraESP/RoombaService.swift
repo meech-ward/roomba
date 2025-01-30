@@ -8,13 +8,10 @@ struct Log: Identifiable, Equatable {
   let timestamp = Date().formatted(date: .omitted, time: .standard)
 }
 
-enum RepositoryError {
-  case notConfigured
-}
 
-actor Repository {
+actor RoombaService {
   @MainActor
-  static let shared = Repository()
+  static let shared = RoombaService()
 
   @MainActor
   private init() {}
