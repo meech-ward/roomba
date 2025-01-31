@@ -61,7 +61,7 @@ class ExternalCameraViewController: UIViewController {
       }
     }
   }
-  
+
   private func setupFPSStreaming() {
     Task {
       for await fps in self.roombaService.fps.stream() {
@@ -89,21 +89,23 @@ class ExternalCameraViewController: UIViewController {
   }
 
   @objc func tap() {
-    Task {
-      defer {
-        imageView.isHidden = false
-        config = UIContentUnavailableConfiguration.empty()
-        setNeedsUpdateContentUnavailableConfiguration()
-      }
-      imageView.isHidden = true
-      config = UIContentUnavailableConfiguration.loading()
-      setNeedsUpdateContentUnavailableConfiguration()
-      let (error, _, success) = await mightFail { try await takePhoto() }
-      guard success else {
-        print("error capturing photo \(error)")
-        showErrorAlert(message: "could not capture photo")
-        return
-      }
-    }
+    roombaService.vaccumSpeed.update(Int8(0))
+
+//    Task {
+//      defer {
+//        imageView.isHidden = false
+//        config = UIContentUnavailableConfiguration.empty()
+//        setNeedsUpdateContentUnavailableConfiguration()
+//      }
+//      imageView.isHidden = true
+//      config = UIContentUnavailableConfiguration.loading()
+//      setNeedsUpdateContentUnavailableConfiguration()
+//      let (error, _, success) = await mightFail { try await takePhoto() }
+//      guard success else {
+//        print("error capturing photo \(error)")
+//        showErrorAlert(message: "could not capture photo")
+//        return
+//      }
+//    }
   }
 }

@@ -22,7 +22,7 @@ static gpio::Motor motor1{GPIO_NUM_5, GPIO_NUM_3, GPIO_NUM_4, LEDC_CHANNEL_0};
 // right
 static gpio::Motor motor2{GPIO_NUM_6, GPIO_NUM_8, GPIO_NUM_9, LEDC_CHANNEL_1};
 // vaccum & brush
-static gpio::Motor motor3{GPIO_NUM_7, GPIO_NUM_43, GPIO_NUM_44, LEDC_CHANNEL_2};
+static gpio::Motor motor3{GPIO_NUM_7, GPIO_NUM_44, GPIO_NUM_43, LEDC_CHANNEL_2};
 
 auto write_motor_data_zero() -> void {
   memset(&command, 0, sizeof(MotorCommand));
@@ -82,7 +82,6 @@ void motor_control_task(void* arg) {
   stop_motors();
 
   while (true) {
-
     bool got_new_command = read_motor_data(current, last_sequence);
 
     // If there's no instructions for 400ms, stop motors
@@ -94,6 +93,7 @@ void motor_control_task(void* arg) {
     }
 
     if (!got_new_command) {
+      vTaskDelay(delay_ms);
       continue;
     }
 

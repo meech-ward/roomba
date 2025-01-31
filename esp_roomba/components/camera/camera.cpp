@@ -54,7 +54,7 @@ static camera_config_t camera_config = {
   .ledc_timer = LEDC_TIMER_0,
   .ledc_channel = LEDC_CHANNEL_0,
   .pixel_format = PIXFORMAT_JPEG,  // The pixel format of the image: PIXFORMAT_ + YUV422|GRAYSCALE|RGB565|JPEG
-  .frame_size = FRAMESIZE_HVGA,  // FRAMESIZE_SVGA, // 800x600       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but
+  .frame_size = FRAMESIZE_VGA,  // FRAMESIZE_SVGA, // 800x600       // FRAMESIZE_SVGA,       // FRAMESIZE_HD (works but
                                 // it's intensive over wifi), //
                                 //   FRAMESIZE_SVGA,    // FRAMESIZE_XGA,    // FRAMESIZE_SVGA, //FRAMESIZE_UXGA,
                                 //    //FRAMESIZE_SVGA, FRAMESIZE_UXGA //
@@ -168,7 +168,7 @@ void camera_capture_task(void* arg) {
     // depends on a lot of factors
     // make sure you update the ws delay too
     // vTaskDelay(pdMS_TO_TICKS(30)); // 5640
-    vTaskDelay(pdMS_TO_TICKS(30));  // 2640
+    vTaskDelay(pdMS_TO_TICKS(10));  // 2640
   }
 }
 

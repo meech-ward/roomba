@@ -39,7 +39,7 @@ auto camera_stream_task(void* arg) -> void {
   uint64_t last_loop_time = esp_timer_get_time();
   while (true) {
     uint64_t current_time = esp_timer_get_time();
-    ESP_LOGI(TAG, "Time since last loop: %llu us", current_time - last_loop_time);
+    // ESP_LOGI(TAG, "Time since last loop: %llu us", current_time - last_loop_time);
     last_loop_time = current_time;
     if (!s_streaming || s_ws_fd < 0) {
       printf("No streaming %d, %d \n", static_cast<int>(s_streaming), s_ws_fd);
@@ -72,7 +72,7 @@ auto camera_stream_task(void* arg) -> void {
     // Prepare a WS frame
     ws_pkt.payload = jpeg_buffer.buffer;
     ws_pkt.len = jpeg_buffer.len;
-    ESP_LOGI(TAG, "JPEG length: %zu bytes", ws_pkt.len);
+    // ESP_LOGI(TAG, "JPEG length: %zu bytes", ws_pkt.len);
 
     // Send asynchronously
     // esp_err_t err = httpd_ws_send_frame_async(s_server, s_ws_fd, &ws_pkt);
@@ -134,5 +134,6 @@ auto handle_binary_message(httpd_ws_frame_t& ws_pkt, uint8_t* buf, int fd) -> vo
     ESP_LOGW(TAG, "Invalid binary packet size: %d", ws_pkt.len);
     return;
   }
+  
   write_motor_data(buf);
 }

@@ -52,9 +52,12 @@ class MainPageViewController: UIViewController {
   }
 
   func configureNetwork() async {
-    let url = URL(string: "ws://10.0.0.215/ws")!
+//    let url = URL(string: "ws://10.0.0.215/ws")!
 //    let url = URL(string: "ws://10.0.0.35/ws")!
-//    let url = URL(string: "ws://10.0.0.212/motor_control")!
+//    let url = URL(string: "ws://10.0.0.226/ws")!
+    let url = URL(string: "ws://10.0.0.250/ws")!
+
+//    let url = URL(string: "ws://10.0.0.222/motor_control")!
     let (error, _, success) = await mightFail { try await roomba.configure(withUrl: url) }
 
     guard success else {
@@ -63,6 +66,5 @@ class MainPageViewController: UIViewController {
     }
 
     print("configured roomba")
-    
   }
 }
